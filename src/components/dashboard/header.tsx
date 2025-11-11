@@ -24,7 +24,7 @@ export function Header({ project }: { project: Project | null | undefined }) {
   
   return (
     <header className="flex h-20 items-center gap-4 border-b bg-card px-4 lg:px-6">
-      <SidebarTrigger className="hidden lg:flex" />
+      <SidebarTrigger className="flex lg:hidden" />
       
       <div className="flex-1 truncate">
         {project ? (
