@@ -38,7 +38,7 @@ export const users: User[] = [
 ];
 
 export const agents: Agent[] = [
-  { id: 'agent-1', name: 'Data Miner', status: 'active', credits: 850, avatarUrl: getImageUrl('agent1') },
+  { id: 'agent-1', name: 'Youtube Optimizator', status: 'active', credits: 850, avatarUrl: getImageUrl('agent1') },
   { id: 'agent-2', name: 'Web Crawler', status: 'active', credits: 420, avatarUrl: getImageUrl('agent2') },
   { id: 'agent-3', name: 'Content Analyst', status: 'inactive', credits: 0, avatarUrl: getImageUrl('agent3') },
   { id: 'agent-4', name: 'Code Generator', status: 'active', credits: 95, avatarUrl: getImageUrl('agent4') },
