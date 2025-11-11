@@ -23,12 +23,14 @@ export function SidebarNav() {
   const { user } = useUser();
   const firestore = useFirestore();
 
-  const [formattedTotalCredits, setFormattedTotalCredits] = useState('1500');
+  const [formattedTotalCredits, setFormattedTotalCredits] = useState('1,500');
 
   useEffect(() => {
+    // This effect runs only on the client, after hydration
+    // It ensures that locale-specific formatting doesn't cause a mismatch
     const totalCredits = 1500;
     setFormattedTotalCredits(totalCredits.toLocaleString());
-  }, []);
+  }, []); // Empty dependency array means it runs once on mount
 
   const foldersQuery = useMemoFirebase(() => {
     if (!user) return null;
