@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import {
   SidebarContent,
   SidebarFooter,
@@ -15,7 +16,12 @@ import { agents, projects, folders } from '@/lib/data';
 import Link from 'next/link';
 
 export function SidebarNav() {
-  const totalCredits = 1500;
+  const [totalCredits, setTotalCredits] = useState<string | null>(null);
+
+  useEffect(() => {
+    // 1500 is a placeholder value
+    setTotalCredits((1500).toLocaleString());
+  }, []);
 
   return (
     <>
@@ -28,7 +34,11 @@ export function SidebarNav() {
         </div>
         <div className="mt-4 rounded-lg bg-muted p-4 text-center">
           <p className="text-sm text-muted-foreground">Total Available Credits</p>
-          <p className="text-2xl font-bold">{totalCredits.toLocaleString()}</p>
+          {totalCredits !== null ? (
+            <p className="text-2xl font-bold">{totalCredits}</p>
+          ) : (
+            <p className="text-2xl font-bold">...</p>
+          )}
         </div>
       </SidebarHeader>
 
@@ -47,6 +57,12 @@ export function SidebarNav() {
                    </SidebarMenuButton>
                  </SidebarMenuItem>
                ))}
+                 <SidebarMenuItem>
+                    <SidebarMenuButton variant="outline" size="sm" className="h-8 justify-center">
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        <span>Create Project</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
              </SidebarMenu>
            </SidebarGroup>
         ))}
