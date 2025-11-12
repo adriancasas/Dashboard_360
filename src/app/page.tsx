@@ -30,7 +30,7 @@ export default function ChatPage() {
         setTimeout(() => {
             setMessages(prev => [...prev, { id: 'initial-message-3', text: 'Si es así no perdamos el tiempo. ¿Quieres que empecemos con el análisis en profundidad de tu canal? Estoy aquí para guiarte paso a paso en todo el proceso 💪', sender: 'ai' }]);
             setTimeout(() => {
-                setMessages(prev => [...prev, { id: 'initial-message-4', text: 'Si es otro agent el que te ha flipado, solo dímelo. ;)', sender: 'ai' }]);
+                setMessages(prev => [...prev, { id: 'initial-message-4', text: 'Si es otro agent el que te ha flipado, solo dímelo. 😎', sender: 'ai' }]);
                 setIsAiTyping(false);
             }, 1500);
         }, 1500);
