@@ -103,56 +103,81 @@ export default function ChatPage() {
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-background">
-      <div className="flex w-full max-w-4xl flex-col rounded-t-lg border bg-card shadow-lg max-h-[80vh]">
-        <header className="flex items-center justify-between border-b p-4 rounded-t-lg bg-card">
-          <h1 className="text-xl font-bold">Welcome to the Agent Store</h1>
-        </header>
-        <ScrollArea className="flex-1 p-4">
-          <div className="space-y-4">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex items-start gap-3 ${
-                  message.sender === 'user' ? 'justify-end' : ''
-                }`}
-              >
-                {message.sender === 'ai' && (
+      <div className="w-full max-w-4xl">
+        <div className="flex flex-col rounded-t-lg border bg-card shadow-lg max-h-[80vh]">
+          <header className="flex items-center justify-between border-b p-4 rounded-t-lg bg-card">
+            <h1 className="text-xl font-bold">Welcome to the Agent Store</h1>
+          </header>
+          <ScrollArea className="flex-1 p-4">
+            <div className="space-y-4">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex items-start gap-3 ${
+                    message.sender === 'user' ? 'justify-end' : ''
+                  }`}
+                >
+                  {message.sender === 'ai' && (
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback><Bot size={20}/></AvatarFallback>
+                    </Avatar>
+                  )}
+                  <div
+                    className={`max-w-md rounded-lg p-3 text-sm ${
+                      message.sender === 'user'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted'
+                    }`}
+                  >
+                    <p>{message.text}</p>
+                  </div>
+                  {message.sender === 'user' && (
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback><User size={20}/></AvatarFallback>
+                    </Avatar>
+                  )}
+                </div>
+              ))}
+               {isLoading && (
+                <div className="flex items-start gap-3">
                   <Avatar className="h-8 w-8">
                     <AvatarFallback><Bot size={20}/></AvatarFallback>
                   </Avatar>
-                )}
-                <div
-                  className={`max-w-md rounded-lg p-3 text-sm ${
-                    message.sender === 'user'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted'
-                  }`}
-                >
-                  <p>{message.text}</p>
+                  <div className="max-w-xs rounded-lg p-3 text-sm bg-muted">
+                    <p>...</p>
+                  </div>
                 </div>
-                {message.sender === 'user' && (
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback><User size={20}/></AvatarFallback>
-                  </Avatar>
-                )}
-              </div>
-            ))}
-             {isLoading && (
-              <div className="flex items-start gap-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback><Bot size={20}/></AvatarFallback>
-                </Avatar>
-                <div className="max-w-xs rounded-lg p-3 text-sm bg-muted">
-                  <p>...</p>
-                </div>
-              </div>
-            )}
-            <div ref={scrollAreaRef} />
+              )}
+              <div ref={scrollAreaRef} />
+            </div>
+          </ScrollArea>
+          
+          <div className="border-t p-4 bg-card">
+            <div className="relative">
+              <Input
+                value={input}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+                placeholder="Escribe tu mensaje..."
+                className="pr-12"
+                disabled={isLoading}
+              />
+              <Button
+                type="submit"
+                size="icon"
+                className="absolute right-1 top-1/2 -translate-y-1/2"
+                onClick={() => handleSend()}
+                disabled={isLoading}
+              >
+                <Send className="h-4 w-4" />
+                <span className="sr-only">Enviar</span>
+              </Button>
+            </div>
           </div>
-        </ScrollArea>
-        
+        </div>
+
         {messages.length === 0 && !isLoading && (
-          <div className="border-t p-4">
+          <div className="mt-4">
             <div className="grid grid-cols-2 gap-4">
               {icebreakers.map((icebreaker) => (
                 <Card
@@ -169,31 +194,7 @@ export default function ChatPage() {
             </div>
           </div>
         )}
-
-        <div className="border-t p-4 bg-card">
-          <div className="relative">
-            <Input
-              value={input}
-              onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
-              placeholder="Escribe tu mensaje..."
-              className="pr-12"
-              disabled={isLoading}
-            />
-            <Button
-              type="submit"
-              size="icon"
-              className="absolute right-1 top-1/2 -translate-y-1/2"
-              onClick={() => handleSend()}
-              disabled={isLoading}
-            >
-              <Send className="h-4 w-4" />
-              <span className="sr-only">Enviar</span>
-            </Button>
-          </div>
-        </div>
       </div>
     </div>
   );
 }
-
