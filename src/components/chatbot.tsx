@@ -14,6 +14,11 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { MessageCircle, Send, Loader2 } from 'lucide-react';
 import { faqFlow } from '@/ai/flows/faq-flow';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 type Message = {
   text: string;
@@ -21,10 +26,11 @@ type Message = {
 };
 
 export default function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showGreeting, setShowGreeting] = useState(false);
 
   useEffect(() => {
     const welcomeMessage: Message = {
@@ -32,7 +38,13 @@ export default function Chatbot() {
       isUser: false,
     };
     setMessages([welcomeMessage]);
-    setIsOpen(true);
+    setShowGreeting(true);
+
+    const timer = setTimeout(() => {
+      setShowGreeting(false);
+    }, 7000); // Hide greeting after 7 seconds
+
+    return () => clearTimeout(timer);
   }, []);
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -60,17 +72,31 @@ export default function Chatbot() {
     }
   };
 
+  const handleOpenDialog = () => {
+    setShowGreeting(false);
+    setIsDialogOpen(true);
+  };
+
   return (
     <>
-      <Button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 right-8 rounded-full w-16 h-16 shadow-lg"
-        size="icon"
-      >
-        <MessageCircle className="h-8 w-8" />
-      </Button>
+      <div className="fixed bottom-8 right-8 z-50">
+        <Popover open={showGreeting} onOpenChange={setShowGreeting}>
+          <PopoverTrigger asChild>
+            <Button
+              onClick={handleOpenDialog}
+              className="rounded-full w-16 h-16 shadow-lg"
+              size="icon"
+            >
+              <MessageCircle className="h-8 w-8" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent side="top" className="w-auto mb-2">
+            <p className="text-sm">¡Hola! 👋 ¿Necesitas ayuda?</p>
+          </PopoverContent>
+        </Popover>
+      </div>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Asistente de Ayuda</DialogTitle>
@@ -100,9 +126,9 @@ export default function Chatbot() {
               ))}
               {isLoading && (
                 <div className="flex justify-start">
-                   <div className="p-3 rounded-lg bg-muted">
+                  <div className="p-3 rounded-lg bg-muted">
                     <Loader2 className="h-5 w-5 animate-spin" />
-                   </div>
+                  </div>
                 </div>
               )}
             </div>
