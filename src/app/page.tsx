@@ -60,7 +60,7 @@ export default function Home() {
           return (
             <Card
               key={agent.id}
-              className="flex flex-col items-center justify-between p-6 text-center overflow-hidden rounded-lg shadow-lg transition-transform transition-colors hover:scale-105 hover:bg-accent"
+              className="flex flex-col items-center justify-between p-6 text-center overflow-hidden rounded-lg shadow-lg transition-transform transition-colors hover:scale-105 hover:bg-muted"
             >
               <CardHeader className="p-0">
                 <Avatar className="w-24 h-24 mb-4">
