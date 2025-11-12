@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -6,7 +5,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ArrowUp, User } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { askChatbot } from '@/ai/flows/chatbot-flow';
 import { type ChatMessage } from '@/ai/flows/chatbot-types';
 import { type MessageData } from 'genkit';
@@ -114,10 +113,10 @@ export default function ChatPage() {
 
   return (
     <div className="flex h-screen flex-col items-center justify-center bg-background">
-      <h1 className="text-3xl font-bold text-center mb-4">
-        Welcome to the Agent Store
-      </h1>
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-4xl px-4">
+        <h1 className="text-3xl font-bold text-center mb-4">
+          Welcome to the Agent Store
+        </h1>
         <div className="flex flex-col rounded-lg border bg-card shadow-lg max-h-[80vh]">
           <ScrollArea className="flex-1 p-4">
             <div className="space-y-4">
@@ -139,7 +138,9 @@ export default function ChatPage() {
                   </div>
                   {message.sender === 'user' && (
                     <Avatar className="h-8 w-8">
-                      <AvatarFallback><User size={20}/></AvatarFallback>
+                      <AvatarFallback>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      </AvatarFallback>
                     </Avatar>
                   )}
                 </div>
@@ -163,7 +164,7 @@ export default function ChatPage() {
                 onChange={handleInputChange}
                 onKeyPress={handleKeyPress}
                 placeholder="Escribe tu mensaje..."
-                className="flex-1 bg-muted"
+                className="flex-1"
                 disabled={isLoading}
               />
               <Button
