@@ -106,7 +106,7 @@ export default function AgentDetailsDialog({
               <SelectValue 
                 placeholder={
                   hasProjects 
-                    ? (showValidation ? "¡Primero selecciona un proyecto!" : "Selecciona un proyecto")
+                    ? (showValidation ? "Selecciona primero un proyecto, por favor" : "Selecciona un proyecto")
                     : "No tienes proyectos creados"
                 } 
               />
