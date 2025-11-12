@@ -37,10 +37,12 @@ export default function ChatPage() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
+    inputRef.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -48,6 +50,12 @@ export default function ChatPage() {
       scrollAreaRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      inputRef.current?.focus();
+    }
+  }, [isLoading]);
 
   const handleSend = async (messageText?: string) => {
     const textToSend = messageText || input;
@@ -155,6 +163,7 @@ export default function ChatPage() {
           <div className="border-t p-4 bg-card">
             <div className="relative">
               <Input
+                ref={inputRef}
                 value={input}
                 onChange={handleInputChange}
                 onKeyPress={handleKeyPress}
