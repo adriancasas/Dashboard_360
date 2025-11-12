@@ -13,14 +13,14 @@ import { type MessageData } from 'genkit';
 import { Card, CardContent } from '@/components/ui/card';
 
 const icebreakers = [
-    {
-      title: 'Explain a concept',
-      prompt: 'Explain the difference between an agent and a model',
-    },
-    {
-      title: 'Suggest an idea',
-      prompt: 'What can I build with a web crawler agent?',
-    },
+  {
+    title: 'Explain a concept',
+    prompt: 'Explain the difference between an agent and a model',
+  },
+  {
+    title: 'Suggest an idea',
+    prompt: 'What can I build with a web crawler agent?',
+  },
 ];
 
 
