@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -25,6 +25,15 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const welcomeMessage: Message = {
+      text: 'Hola! 👋 Soy tu asistente. Pregúntame lo que sea sobre la Agent Store.',
+      isUser: false,
+    };
+    setMessages([welcomeMessage]);
+    setIsOpen(true);
+  }, []);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
