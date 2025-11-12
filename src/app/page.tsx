@@ -83,25 +83,26 @@ export default function Home() {
           return (
             <Card
               key={agent.id}
-              className="flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105"
+              className="flex flex-col items-center justify-between p-6 text-center overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105"
             >
-              <CardHeader className="flex flex-row items-center gap-4 p-4">
-                <Avatar>
+              <CardHeader className="p-0">
+                <Avatar className="w-24 h-24 mb-4">
                   <AvatarImage
                     src={avatar?.imageUrl}
                     alt={avatar?.description}
                     data-ai-hint={avatar?.imageHint}
+                    className="aspect-square object-cover"
                   />
                   <AvatarFallback>{agent.name.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <div className="w-full">
-                  <CardTitle className="text-xl font-bold">{agent.name}</CardTitle>
-                  <CardDescription className="text-sm text-muted-foreground mt-1">
-                    {agent.specialty}
-                  </CardDescription>
-                </div>
               </CardHeader>
-              <CardFooter className="mt-auto p-4">
+              <CardContent className="p-0">
+                <CardTitle className="text-xl font-bold">{agent.name}</CardTitle>
+                <CardDescription className="text-sm text-muted-foreground mt-2">
+                  {agent.specialty}
+                </CardDescription>
+              </CardContent>
+              <CardFooter className="p-0 mt-4">
                 <Button className="w-full">Conectar</Button>
               </CardFooter>
             </Card>
