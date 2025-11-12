@@ -14,8 +14,8 @@ import { Card, CardContent } from '@/components/ui/card';
 
 const icebreakers = [
   {
-    title: 'Explain a concept',
-    prompt: 'Explain the difference between an agent and a model',
+    title: 'Saber más sobre planes y precios adaptados',
+    prompt: 'Planes y precios',
   },
   {
     title: 'Suggest an idea',
