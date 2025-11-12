@@ -96,7 +96,6 @@ export default function DashboardPage() {
   const handleConnect = () => {
     if (!selectedProject) {
         toast({
-            title: 'Error',
             description: 'Por favor, selecciona un proyecto.',
             variant: 'destructive',
           });
@@ -140,7 +139,7 @@ export default function DashboardPage() {
                             ))}
                         </SelectContent>
                     </Select>
-                    <Button className='w-full' onClick={handleConnect}>
+                    <Button onClick={handleConnect}>
                         Conectar a proyecto
                     </Button>
                 </div>
