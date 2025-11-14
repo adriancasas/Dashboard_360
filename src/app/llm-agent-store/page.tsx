@@ -1,120 +1,131 @@
 'use client';
-import Image from 'next/image';
+
+import { useState } from 'react';
+import { Bot, Send, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
-type Agent = {
-  id: string;
-  name: string;
-  description: string;
-  avatar: string;
-  tags: string[];
+type Message = {
+  text: string;
+  sender: 'user' | 'bot';
 };
 
-const agents: Agent[] = [
-  {
-    id: 'data-miner',
-    name: 'Data Miner',
-    description: 'Extracts and analyzes data from various sources.',
-    avatar: PlaceHolderImages.find((img) => img.id === 'agent1')?.imageUrl || '',
-    tags: ['Data', 'Analysis', 'Automation'],
-  },
-  {
-    id: 'web-crawler',
-    name: 'Web Crawler',
-    description: 'Crawls websites to gather specific information.',
-    avatar: PlaceHolderImages.find((img) => img.id === 'agent2')?.imageUrl || '',
-    tags: ['Web', 'Scraping'],
-  },
-  {
-    id: 'content-analyst',
-    name: 'Content Analyst',
-    description: 'Analyzes text content for sentiment and keywords.',
-    avatar: PlaceHolderImages.find((img) => img.id === 'agent3')?.imageUrl || '',
-    tags: ['NLP', 'Content'],
-  },
-  {
-    id: 'code-generator',
-    name: 'Code Generator',
-    description: 'Generates boilerplate code in multiple languages.',
-    avatar: PlaceHolderImages.find((img) => img.id === 'agent4')?.imageUrl || '',
-    tags: ['Development', 'Code'],
-  },
-  {
-    id: 'support-bot',
-    name: 'Support Bot',
-    description: 'Automates responses to common customer support queries.',
-    avatar: PlaceHolderImages.find((img) => img.id === 'agent5')?.imageUrl || '',
-    tags: ['Support', 'Chat'],
-  },
-  {
-    id: 'market-analyzer',
-    name: 'Market Analyzer',
-    description: 'Monitors and analyzes financial market trends.',
-    avatar: PlaceHolderImages.find((img) => img.id === 'agent6')?.imageUrl || '',
-    tags: ['Finance', 'Data'],
-  },
+const initialMessages: Message[] = [
+  { text: '¡Hola!', sender: 'bot' },
+  { text: 'Supongo que ya has probado el agente y quieres más...', sender: 'bot' },
 ];
 
-export default function LlmAgentStorePage() {
-  return (
-    <main className="container mx-auto p-4 md:p-8">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-          LLM Agent Store
-        </h1>
-        <p className="mt-6 text-lg leading-8 text-muted-foreground">
-          Discover and deploy autonomous agents for any task.
-        </p>
-      </div>
+export default function LlmAgentChatPage() {
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {agents.map((agent) => (
-          <Card key={agent.id} className="flex flex-col">
-            <CardHeader className="flex-row items-start gap-4 space-y-0">
-              <Image
-                src={agent.avatar}
-                alt={`${agent.name} avatar`}
-                width={64}
-                height={64}
-                className="rounded-full"
-              />
-              <div className="flex-1">
-                <CardTitle>{agent.name}</CardTitle>
-                <CardDescription className="mt-1">
-                  {agent.description}
-                </CardDescription>
-              </div>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <div className="flex flex-wrap gap-2">
-                {agent.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">
-                    {tag}
-                  </Badge>
+  const handleSend = () => {
+    if (input.trim()) {
+      const newMessages: Message[] = [...messages, { text: input, sender: 'user' }];
+      setMessages(newMessages);
+      setInput('');
+      setIsLoading(true);
+
+      // Simulate bot response
+      setTimeout(() => {
+        setMessages([
+          ...newMessages,
+          { text: 'Esta es una respuesta simulada.', sender: 'bot' },
+        ]);
+        setIsLoading(false);
+      }, 1500);
+    }
+  };
+  
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSend();
+    }
+  };
+
+  return (
+    <main className="flex h-screen flex-col items-center justify-center bg-muted/40 p-4">
+        <Card className="flex h-full w-full max-w-4xl flex-col">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Avatar>
+                <AvatarFallback>A</AvatarFallback>
+              </Avatar>
+              <span>LLM Agent</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex-grow overflow-hidden">
+            <ScrollArea className="h-full">
+              <div className="flex flex-col gap-4 pr-4">
+                {messages.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      'flex items-end gap-2',
+                      msg.sender === 'user' ? 'justify-end' : 'justify-start'
+                    )}
+                  >
+                    {msg.sender === 'bot' && (
+                        <Avatar className="h-8 w-8">
+                            <AvatarFallback>A</AvatarFallback>
+                        </Avatar>
+                    )}
+                    <div
+                      className={cn(
+                        'max-w-md rounded-lg p-3',
+                        msg.sender === 'user'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-muted'
+                      )}
+                    >
+                      <p className="text-sm">{msg.text}</p>
+                    </div>
+                  </div>
                 ))}
+                {isLoading && (
+                   <div className="flex items-end gap-2 justify-start">
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback>A</AvatarFallback>
+                      </Avatar>
+                      <div className="max-w-xs rounded-lg p-3 bg-muted">
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      </div>
+                    </div>
+                )}
               </div>
-            </CardContent>
-            <CardFooter>
+            </ScrollArea>
+          </CardContent>
+          <CardFooter>
+            <div className="relative w-full">
+              <Input
+                placeholder="Escribe un mensaje..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                disabled={isLoading}
+              />
               <Button
-                variant="outline"
-                className="w-full"
+                size="icon"
+                className="absolute right-1 top-1/2 -translate-y-1/2 transform"
+                onClick={handleSend}
+                disabled={isLoading}
               >
-                View Details
+                <Send className="h-4 w-4" />
               </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+            </div>
+          </CardFooter>
+        </Card>
     </main>
   );
 }
