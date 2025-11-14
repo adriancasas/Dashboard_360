@@ -1,12 +1,18 @@
 'use client';
 
+import { useState } from 'react';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, Circle } from 'lucide-react';
@@ -27,6 +33,12 @@ const teams = [
       avatar: PlaceHolderImages.find((img) => img.id === 'agent6')?.imageUrl,
     },
     assignedTask: 'Análisis de palabras clave de la competencia.',
+    tasks: [
+        { id: 'seo-1', description: 'Investigar 5 competidores principales', completed: true },
+        { id: 'seo-2', description: 'Extraer 100 palabras clave long-tail', completed: true },
+        { id: 'seo-3', description: 'Generar informe de dificultad de keywords', completed: false },
+        { id: 'seo-4', description: 'Proponer 3 temas de contenido basados en datos', completed: false },
+    ]
   },
   {
     id: 'team-content',
@@ -41,6 +53,11 @@ const teams = [
       avatar: PlaceHolderImages.find((img) => img.id === 'agent3')?.imageUrl,
     },
     assignedTask: 'Redacción de borrador para el blog post de "Novedades Q3".',
+    tasks: [
+        { id: 'content-1', description: 'Esquema del artículo', completed: true },
+        { id: 'content-2', description: 'Redacción de la introducción', completed: true },
+        { id: 'content-3', description: 'Desarrollo del cuerpo del artículo', completed: false },
+    ]
   },
   {
     id: 'team-dev',
@@ -55,6 +72,11 @@ const teams = [
       avatar: PlaceHolderImages.find((img) => img.id === 'agent4')?.imageUrl,
     },
     assignedTask: 'Revisión de pull request #241.',
+    tasks: [
+        { id: 'dev-1', description: 'Analizar cobertura de tests', completed: true },
+        { id: 'dev-2', description: 'Identificar posibles "code smells"', completed: false },
+        { id: 'dev-3', description: 'Sugerir optimizaciones de rendimiento', completed: false },
+    ]
   },
 ];
 
@@ -68,7 +90,11 @@ const projectTasks = [
   { id: 'task-7', description: 'Preparar presentación para stakeholders', completed: false },
 ];
 
+type Team = (typeof teams)[0];
+
 export default function HumanoIaPage() {
+    const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
+
   return (
     <main className="flex-1 p-4 md:p-6 lg:p-8">
       <div className="mb-8">
@@ -80,7 +106,7 @@ export default function HumanoIaPage() {
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {teams.map((team) => (
-          <Card key={team.id}>
+          <Card key={team.id} className="cursor-pointer hover:border-primary transition-colors" onClick={() => setSelectedTeam(team)}>
             <CardHeader>
                 <div className="flex items-center gap-4">
                      <div className="relative">
@@ -134,6 +160,35 @@ export default function HumanoIaPage() {
             </div>
         </CardContent>
       </Card>
+
+      {selectedTeam && (
+        <Dialog open={!!selectedTeam} onOpenChange={(isOpen) => !isOpen && setSelectedTeam(null)}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Tareas para el equipo: {selectedTeam.human.role}</DialogTitle>
+                    <DialogDescription>
+                        Checklist de tareas asignadas al binomio {selectedTeam.human.name} y {selectedTeam.agent.name}.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="py-4">
+                    <div className="space-y-4">
+                        {selectedTeam.tasks.map(task => (
+                            <div key={task.id} className="flex items-center gap-4 rounded-md border p-4">
+                                {task.completed ? (
+                                    <CheckCircle className="h-6 w-6 text-green-500" />
+                                ) : (
+                                    <Circle className="h-6 w-6 text-muted-foreground" />
+                                )}
+                                <span className={`flex-1 ${task.completed ? 'text-muted-foreground line-through' : 'text-foreground'}`}>
+                                    {task.description}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </DialogContent>
+        </Dialog>
+      )}
     </main>
   );
 }
