@@ -6,9 +6,14 @@ import { ArrowRight } from "lucide-react";
 export default function Home() {
   const projects = [
     {
-      name: "Agent Store",
+      name: "Agent Store (Final)",
       description: "La tienda de agentes con el chatbot de ayuda integrado.",
       href: "/agent-store"
+    },
+    {
+      name: "LLM Agent Store",
+      description: "La primera versión de la tienda de agentes.",
+      href: "/llm-agent-store"
     },
     {
       name: "Dashboard 360 (Nuevo)",
@@ -28,7 +33,7 @@ export default function Home() {
         </p>
       </div>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project) => (
+        {projects.sort((a, b) => a.name.localeCompare(b.name)).map((project) => (
           <Link href={project.href} key={project.name} className="block hover:scale-105 transition-transform duration-200">
             <Card className="h-full flex flex-col">
               <CardHeader>
