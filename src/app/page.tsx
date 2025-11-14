@@ -8,22 +8,22 @@ export default function Home() {
     {
       name: "Agent Store",
       description: "La tienda de agentes con el chatbot de ayuda integrado.",
-      href: "/agent-store"
+      href: "/projects/agent-store"
     },
     {
       name: "LLM Agent Store",
       description: "La primera versión de la tienda de agentes.",
-      href: "/llm-agent-store"
+      href: "/projects/llm-agent-store"
     },
     {
       name: "Agent Dashboard",
       description: "El dashboard inicial para la gestión de agentes.",
-      href: "/dashboard"
+      href: "/projects/dashboard"
     },
     {
       name: "Dashboard 360 (Nuevo)",
       description: "El nuevo dashboard para equipos y empresas (lienzo en blanco).",
-      href: "/dashboard-360"
+      href: "/projects/dashboard-360"
     }
   ];
 
