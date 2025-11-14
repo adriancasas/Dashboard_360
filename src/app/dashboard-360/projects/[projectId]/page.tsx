@@ -98,6 +98,25 @@ const projectData = {
             { id: 'seo-3', description: 'Generar informe de dificultad de keywords', completed: false },
         ]
       },
+       {
+        id: 'team-content',
+        human: {
+          role: 'Content Manager',
+          name: 'Carlos Rivas',
+          avatar: PlaceHolderImages.find((img) => img.id === 'user2')?.imageUrl,
+        },
+        agent: {
+          role: 'Article Writer Agent',
+          name: 'Writer-Bot 2.1',
+          avatar: PlaceHolderImages.find((img) => img.id === 'agent3')?.imageUrl,
+        },
+        assignedTask: 'Redacción de borrador para el blog post de "Novedades Q3".',
+        tasks: [
+            { id: 'content-1', description: 'Esquema del artículo', completed: true },
+            { id: 'content-2', description: 'Redacción de la introducción', completed: true },
+            { id: 'content-3', description: 'Desarrollo del cuerpo del artículo', completed: false },
+        ]
+      },
     ],
   },
   y: {
@@ -151,6 +170,24 @@ const projectData = {
             { id: 'dev-1-y', description: 'Analizar cobertura de tests', completed: true },
             { id: 'dev-2-y', description: 'Identificar posibles "code smells"', completed: true },
             { id: 'dev-3-y', description: 'Sugerir optimizaciones de rendimiento', completed: false },
+        ]
+      },
+      {
+        id: 'team-analytics-y',
+        human: {
+          role: 'Data Analyst',
+          name: 'William Kim',
+          avatar: PlaceHolderImages.find((img) => img.id === 'user4')?.imageUrl,
+        },
+        agent: {
+          role: 'Predictive Modeler',
+          name: 'Analytica-Prime',
+          avatar: PlaceHolderImages.find((img) => img.id === 'agent7')?.imageUrl,
+        },
+        assignedTask: 'Crear modelo predictivo de churn de clientes.',
+        tasks: [
+            { id: 'analytics-1-y', description: 'Limpieza de datos de usuarios', completed: true },
+            { id: 'analytics-2-y', description: 'Entrenamiento del modelo v1', completed: false },
         ]
       },
     ],
